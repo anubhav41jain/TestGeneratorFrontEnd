@@ -3,18 +3,83 @@
   <h1>
     Welcome to {{ title }}!
   </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+  <div><br></div>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div class="container-fluid h-100">
+  <div class="row justify-content-center align-items-center h-100">
+    <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
+      <div class="my-container">
+        <form #quesForm="ngForm" (ngSubmit)="onSubmit(model)" novalidate>
+          <h2>Add your question : </h2>
+          <div class="form-group form-group-lg">
+            <label for="selectClass">Select Class:</label>
+            <select class="form-control form-control-lg" name="className" [(ngModel)]="model.className" (input)="onInputClass($event)" #className="ngModel" required>
+              <option [hidden]="true" value="Select" selected>Select</option>
+              <option *ngFor="let class of classes" value={{class}}>{{class}}</option>
+            </select>
+            <div *ngIf="(className.dirty || className.touched)">
+              <div [hidden]="(className.value!='Select')" class="alert alert-danger">
+                Please Select a Class Name.
+              </div>
+            </div>
+          </div>
+          <div class="form-group form-group-lg">
+            <label for="selectSub">Select Subject</label>
+            <select class="form-control form-control-lg" name="subject" (input)="onInputSub($event)" [(ngModel)]="model.subject" #subject="ngModel" required>
+              <option [hidden]="true" value="Select" selected>Select</option>
+              <option *ngFor="let sub of subjects" value={{sub}}>{{sub}}</option>
+            </select>
+            <div *ngIf="(subject.dirty || subject.touched)">
+              <div [hidden]="(subject.value!='Select')" class="alert alert-danger">
+                Please Select a Subject Name.
+              </div>
+            </div>
+          </div>
 
+          <div class="form-group form-group-lg">
+            <label for="selectChapter">Select Chapter</label>
+            <select class="form-control form-control-lg" name="chapter" [(ngModel)]="model.chapter" #chapter="ngModel" required>
+              <option [hidden]="true" value="Select" selected>Select</option>
+              <option *ngFor="let chap of chapters" value={{chap}}>{{chap}}</option>
+            </select>
+            <div *ngIf="(chapter.dirty || chapter.touched)">
+              <div [hidden]="(chapter.value!='Select')" class="alert alert-danger">
+                Please Select a Chapter Name.
+              </div>
+            </div>
+          </div>
+          <div class="form-group form-group-lg">
+            <label for="setMarks">Set Marks</label>
+            <input class="form-control form-control-lg" name="marks" placeholder="Marks" #marks="ngModel" type="text" pattern="[0-9]+" maxlength="2" [(ngModel)]="model.marks" required>
+            <div *ngIf="marks.errors && (marks.dirty || marks.touched)" class="alert alert-danger">
+              <div [hidden]="!marks.invalid">
+                Marks should be number only.
+              </div>
+            </div>
+          </div>
+          <div class="form-group form-group-lg">
+            <label for="setQuestion">Set Question</label>
+            <input class="form-control form-control-lg" name="ques" placeholder="Question" type="text" [(ngModel)]="model.ques" minlength="1" #ques="ngModel" required>
+            <div *ngIf="ques.errors && (ques.dirty || ques.touched)">
+              <div [hidden]="!ques.invalid" class="alert alert-danger">
+                Question must be at least 1 character long.
+              </div>
+            </div>
+          </div>
+          <div class="form-group form-group-lg">
+            <label for="setAnswer">Answer to above Question</label>
+            <input class="form-control form-control-lg" name="ans" placeholder="Answer to question" type="text" [(ngModel)]="model.ans" minlength="1" #ans="ngModel" required>
+            <div *ngIf="ans.errors && (ans.dirty || ans.touched)">
+              <div [hidden]="!ans.invalid" class="alert alert-danger">
+                Answer must be at least 1 character long.
+              </div>
+            </div>
+          </div>
+          <div class="form-group form-group-lg">
+            <button class="btn btn-info btn-lg btn-block" [disabled]="!(quesForm.valid && (subject.value!='Select' && className.value!='Select' && chapter.value!='Select'))">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
